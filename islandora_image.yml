@@ -1,0 +1,37 @@
+id: islandora_basic_image_json_over_rest
+migration_group: 'Islandora 7.x Over REST'
+label: 'Islandora 7.x JSON over REST'
+
+source:
+  plugin: url
+  data_fetcher_plugin: http
+  data_parser_plugin: json
+  headers:
+    Accept: 'application/json; charset=utf-8'
+    Content-Type: application/json
+  urls: 'http://digital.lib.sfu.ca/islandora/rest/v1/solr/RELS_EXT_isMemberOfCollection_uri_mt:"vpl:collection"&RELS_EXT_hasModel_uri_mt\:info:fedora/islandora:sp_basic_image?fl=PID,fgs_label_t&rows=10'
+  item_selector: /response/docs/
+  fields:
+    -
+      name: field_pid
+      label: PID
+      selector: PID
+    -
+      name: title
+      label: Title
+      selector: fgs_label_t
+  ids:
+    field_pid:
+      type: string
+
+process:
+  type:
+    plugin: default_value
+    default_value: islandora_image
+  title: title
+  field_pid: field_pid
+
+destination:
+  plugin: 'entity:node'
+
+migration_dependencies: null
