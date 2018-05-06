@@ -81,16 +81,9 @@ If you modify the configuration, reimport it using the instructions above, makin
 
 ## Useful commands
 
-* `drush migrate-status islandora_basic_image_json_over_rest`
-
-  Shows the status of your migration.
-
-*  `drush migrate-rollback islandora_basic_image_json_over_rest`
-
-  Will "delete" the results of your migration.
-
-* `drush migrate-reset-status islandora_basic_image_json_over_rest`
-  Sets the migration's status to "idle", effectively stopping the migration should it get stuck.
+* `drush migrate-status islandora_basic_image_json_over_rest`: Shows the status of your migration.
+* `drush migrate-rollback islandora_basic_image_json_over_rest`: Will "delete" the results of your migration.
+* `drush migrate-reset-status islandora_basic_image_json_over_rest`: Sets the migration's status to "idle", effectively stopping the migration should it get stuck.
 
 ## Contributing
 
