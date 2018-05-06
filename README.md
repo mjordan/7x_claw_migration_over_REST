@@ -24,6 +24,8 @@ But that stuff will come.
 
 Add a `field_pid` field to our Islandora Image content type.
 
+Note that this step is not required (the migration will work without it) but it illustrates that we can get object properties from the source 7.x objects and persist them in the corresponding CLAW nodes.
+
 ### Step 2: Modifying the configuration file to use your Islandora 7.x instance as a source
 
 You will need to modify lines 13 and 35 in the configuration file.  Line 13 defines an Islandora REST request that queries Solr to retrieve source data to migrate to CLAW:
@@ -80,9 +82,13 @@ If you modify the configuration, reimport it using the instructions above, makin
 ## Useful commands
 
 * `drush migrate-status islandora_basic_image_json_over_rest`
+
   Shows the status of your migration.
+
 *  `drush migrate-rollback islandora_basic_image_json_over_rest`
+
   Will "delete" the results of your migration.
+
 * `drush migrate-reset-status islandora_basic_image_json_over_rest`
   Sets the migration's status to "idle", effectively stopping the migration should it get stuck.
 
