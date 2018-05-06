@@ -2,61 +2,14 @@
 
 ## Overview
 
-No code!
+Illustrates a migration from an Islandora 7.x repository to a CLAW repository using only configuration. No custom module code is required. This is possible because Drupal 8 has migration plugins for remote JSON data, and because Islandora 7.x has the ability, via the Islandora REST module, to act as a Drupal 8 migration data source.
 
-```javascript
-{
-	"responseHeader": {
-		"status": 0,
-		"QTime": 1,
-		"params": {
-			"q": "RELS_EXT_isMemberOfCollection_uri_mt:\u0022vpl:collection\u0022\u0026RELS_EXT_hasModel_uri_mt\\:info:fedora",
-			"json.nl": "map",
-			"fl": "PID,fgs_label_t",
-			"start": "0",
-			"fq": "RELS_EXT_isViewableByUser_literal_ms:\u0022anonymous\u0022 OR RELS_EXT_isViewableByRole_literal_ms:\u0022anonymous user\u0022 OR ((*:* -RELS_EXT_isViewableByUser_literal_ms:[* TO *]) AND (*:* -RELS_EXT_isViewableByRole_literal_ms:[* TO *]))",
-			"rows": "10",
-			"version": "1.2",
-			"wt": "json"
-		}
-	},
-	"response": {
-		"numFound": 1351,
-		"start": 0,
-		"docs": [{
-			"PID": "vpl:122",
-			"fgs_label_t": "Chinese business damaged by race riot"
-		}, {
-			"PID": "vpl:1224",
-			"fgs_label_t": "Doukhobors at cenotaph with Lebedoff sign"
-		}, {
-			"PID": "vpl:1225",
-			"fgs_label_t": "Doukhobors praying at cenotaph"
-		}, {
-			"PID": "vpl:1221",
-			"fgs_label_t": "Doukhobors entering office in Parliament Buildings"
-		}, {
-			"PID": "vpl:1223",
-			"fgs_label_t": "Doukhobors at cenotaph in Downtown Vancouver"
-		}, {
-			"PID": "vpl:1222",
-			"fgs_label_t": "Doukhobors standing next to buses in Downtown Vancouver"
-		}, {
-			"PID": "vpl:1219",
-			"fgs_label_t": "Doukhobors waiting in Parliament Buildings"
-		}, {
-			"PID": "vpl:1220",
-			"fgs_label_t": "Doukhobors in Parliament Buildings"
-		}, {
-			"PID": "vpl:100",
-			"fgs_label_t": "C.P.R. wooden bridge at M.204.25 near Ashcroft"
-		}, {
-			"PID": "vpl:10",
-			"fgs_label_t": "Komagata Maru incident"
-		}]
-	}
-}
-```
+This is a very early attempt at migrating Islandora 7.x objects into CLAW. A lot of stuff is missing, including:
+
+* migrating into a specific collection
+* migrating images, PDFs, etc.
+
+But that stuff will come.
 
 ## Requirements
 
@@ -72,17 +25,52 @@ No code!
 
 Add a `field_pid` field to our Islandora Image content type.
 
-### Step 1: Importing the configuration
+### Step 2: Modifying the configuration file to use your Islandora 7.x instance as a source
 
-1. Import this configuration by going to Configuration > Configuration synchronization > Import > Single item.
+Line 12 in the configuration file defines an Islandora REST request that queries Solr to retrieve source data to migrate to CLAW. To modify this to use your 7.x, after installing the REST module, change
+
+* `http://digital.lib.sfu.ca` to your Islandora 7.x's hostname
+* `vpl:collection` to your source collection's PID
+* `islandora:sp_basic_image` to the content model you want to restrict the query to.
+
+Save your configuration file before moving on to Step 3.
+
+### Step 3: Importing the configuration
+
+1. Import the migration configuration into your Drupal 8 instance by going to Configuration > Configuration synchronization > Import > Single item.
 1. Choose "Migration" from the "Configuration type" list.
-1. Paste the .yml file in this Git repository into the "Paste your configuration here" field.
+1. Paste the configuration file into the "Paste your configuration here" field.
 
-### Step 2: Running the migration
+### Step 4: Running the migration
 
 In your Drupal installation directory, run `drush migrate-import islandora_basic_image_json_over_rest`.
 
+You should see the following output:
+
+```
+ubuntu@claw:/var/www/html/drupal/web/modules/contrib$ drush migrate-import islandora_basic_image_json_over_rest
+ [notice] Processed 10 items (10 created, 0 updated, 0 failed, 0 ignored) - done with 'islandora_basic_image_json_over_rest'
+```
+
+Go to the Content admin menu to see your new nodes.
+
+## Useful commands
+
+* `drush migrate-status islandora_basic_image_json_over_rest`
+  Shows the status of your migration.
+*  `drush migrate-rollback islandora_basic_image_json_over_rest`
+  Will "delete" the results of your migration.
+* `drush migrate-reset-status islandora_basic_image_json_over_rest`
+  Sets the migration's status to "idle", effectively stopping the migration should it get stuck.
+
 ## Contributing
+
+Let's get these things working:
+
+* Migrating into a specific collection
+* Images
+
+PRs are welcome!
 
 ## Maintainers/Sponsors
 
