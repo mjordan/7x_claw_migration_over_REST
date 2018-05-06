@@ -9,6 +9,7 @@ source:
   headers:
     Accept: 'application/json; charset=utf-8'
     Content-Type: application/json
+  # You will need to modify this configuration value to include your own 7.x hostname, source collection PID, and content model.
   urls: 'http://digital.lib.sfu.ca/islandora/rest/v1/solr/RELS_EXT_isMemberOfCollection_uri_mt:"vpl:collection"&RELS_EXT_hasModel_uri_mt\:info:fedora/islandora:sp_basic_image?fl=PID,fgs_label_t&rows=10'
   item_selector: /response/docs/
   fields:
