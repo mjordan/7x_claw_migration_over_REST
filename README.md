@@ -60,6 +60,12 @@ No code!
 
 ## Requirements
 
+* On the source Islandora 7.x instance
+  * [Islandora REST](https://github.com/discoverygarden/islandora_rest)
+* On the target Islandora CLAW instance
+  * [Migrate Plus](https://www.drupal.org/project/migrate_plus)
+  * [Migrate Tools](https://www.drupal.org/project/migrate_tools)
+
 ## Usage
 
 ### Step 1: Preparing your Islandora Image content type
