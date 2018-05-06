@@ -31,6 +31,8 @@ process:
     default_value: islandora_image
   title: title
   field_pid: field_pid
+  # You will need to change this configuration value to match the node ID of your destination collection.
+  field_memberof: '40'
 
 destination:
   plugin: 'entity:node'

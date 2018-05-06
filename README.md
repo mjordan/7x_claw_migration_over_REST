@@ -6,7 +6,6 @@ Illustrates a migration from an Islandora 7.x repository to a CLAW repository us
 
 This is a very early attempt at migrating Islandora 7.x objects into CLAW. A lot of stuff is missing, including:
 
-* migrating into a specific collection
 * migrating images, PDFs, etc.
 
 But that stuff will come.
@@ -27,17 +26,23 @@ Add a `field_pid` field to our Islandora Image content type.
 
 ### Step 2: Modifying the configuration file to use your Islandora 7.x instance as a source
 
-Line 12 in the configuration file defines an Islandora REST request that queries Solr to retrieve source data to migrate to CLAW:
+You will need to modify lines 13 and 35 in the configuration file.  Line 13 defines an Islandora REST request that queries Solr to retrieve source data to migrate to CLAW:
 
 ```
 urls: 'http://digital.lib.sfu.ca/islandora/rest/v1/solr/RELS_EXT_isMemberOfCollection_uri_mt:"vpl:collection"&RELS_EXT_hasModel_uri_mt\:info:fedora/islandora:sp_basic_image?fl=PID,fgs_label_t&rows=10'
 ```
 
-To modify this to use your 7.x, after installing the REST module, change
+To modify this to use your 7.x, after installing the REST module, in line 13 change
 
 * `http://digital.lib.sfu.ca` to your Islandora 7.x's hostname
 * `vpl:collection` to your source collection's PID
 * `islandora:sp_basic_image` to the content model you want to restrict the query to.
+
+and line 35 defines the node ID of the destination collection. To find this value, view your destination collection and get the value in the URL, e.g., `node/40`.
+
+In line 35, change `40` to your destination collection's node ID:
+
+`field_memberof: '40'`
 
 Save your configuration file before moving on to Step 3.
 
@@ -85,7 +90,6 @@ If you modify the configuration, reimport it using the instructions above, makin
 
 Let's get these things working:
 
-* Migrating into a specific collection
 * Images
 
 PRs are welcome!
