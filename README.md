@@ -2,7 +2,7 @@
 
 ## Overview
 
-Illustrates a simple migration from an Islandora 7.x repository to a CLAW repository using only configuration. No custom module code is required. This is possible because Drupal 8 has migration plugins for remote JSON data, and because Islandora 7.x has the ability, via the Islandora REST module, to act as a Drupal 8 migration data source. If you want to see the response body to the REST request that makes this possible, a sample is available in a [gist](https://gist.github.com/mjordan/78c30ce9bb6ec7e3f8f838aa27a39fef).
+Illustrates a simple migration from an Islandora 7.x repository to a CLAW repository using only configuration. No custom module code is required. This is possible because Drupal 8 has migration plugins for remote JSON data, and because Islandora 7.x has the ability, via the Islandora REST module, to act as a Drupal 8 migration data source. If you want to see the body of the response to the REST request that makes this possible, a sample is available in a [gist](https://gist.github.com/mjordan/78c30ce9bb6ec7e3f8f838aa27a39fef).
 
 This is a very early (really a proof of concept) attempt at migrating Islandora 7.x objects into CLAW without requiring any custom PHP code. A lot of stuff is missing, including:
 
@@ -14,7 +14,7 @@ But that stuff will come.
 ## Requirements
 
 * On the source Islandora 7.x instance
-  * [Islandora REST](https://github.com/discoverygarden/islandora_rest). You should configure permissions so that anonymous users cna view Islandora objects and perform Solr quries.
+  * [Islandora REST](https://github.com/discoverygarden/islandora_rest). You should configure permissions so that anonymous users can view Islandora objects.
 * On the target Islandora CLAW instance
   * [Migrate Plus](https://www.drupal.org/project/migrate_plus)
   * [Migrate Tools](https://www.drupal.org/project/migrate_tools)
@@ -41,9 +41,9 @@ To modify this to use your 7.x, after installing the REST module, in line 13 cha
 * `vpl:collection` to your source collection's PID
 * `islandora:sp_basic_image` to the content model you want to restrict the query to. You should probaby not change this content model.
 
-Line 35 defines the node ID of the destination collection. To find this value, view your destination collection and get the value in the URL, e.g., `node/40`.
+The value of the `rows` request parameter determines how many objects are migarated, so feel free to change that too.
 
-In line 35, change `40` to your destination collection's node ID:
+Line 35 defines the node ID of the destination collection. To find this value, in your CLAW instance, view your destination collection and get the value in the URL, e.g., `node/40`.  Then, in line 35 of the configuration file, change `40` to your destination collection's node ID:
 
 `field_memberof: '40'`
 
@@ -83,16 +83,12 @@ If you modify the configuration, reimport it using the instructions above, makin
 ## Useful commands
 
 * `drush migrate-status islandora_basic_image_json_over_rest`: Shows the status of your migration.
-* `drush migrate-rollback islandora_basic_image_json_over_rest`: Will "delete" the results of your migration. All nodes created during the most recent migration will be deleted.
+* `drush migrate-rollback islandora_basic_image_json_over_rest`: "deletes" the results of your migration. All nodes created during the most recent migration will be deleted.
 * `drush migrate-reset-status islandora_basic_image_json_over_rest`: Sets the migration's status to "idle", effectively stopping the migration should it get stuck.
 
 ## Contributing
 
-Let's get these things working:
-
-* Images
-
-PRs are welcome!
+Let's get migrating the image files working. PRs are welcome!
 
 ## Maintainer
 
