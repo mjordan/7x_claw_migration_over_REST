@@ -22,16 +22,25 @@ source:
       type: string
 
 process:
-  source_full_path:
+  remote_image_url:
      plugin: concat
      delimiter: /
      source:
-       - 'http://digital.lib.sfu.ca/islandora/object'
+       - 'http://digital.lib.sfu.ca/islandora/rest/v1/object'
        - field_pid
-       - 'datastream/OBJ/download'
+       - 'datastream/OBJ'
+  temp_image_uri:
+     plugin: concat
+     delimiter: /
+     source:
+       - constants/image_base_dir
+       - constants/image_name
   uri:
      plugin: download
-     source: '@source_full_path'
+     source:
+       - '@remote_image_url'
+       - '@temp_image_uri'
+     rename: true
 #  parent:
 #     plugin: migration_lookup
 #     migration: islandora_basic_image_json_over_rest
