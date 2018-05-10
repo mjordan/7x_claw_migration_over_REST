@@ -57,6 +57,17 @@ Save your configuration file before moving on to Step 3.
 
 ### Step 4: Running the migration
 
+You can run this migration from within the admin user interface or from the command line.
+
+#### Admin user interface
+
+1. Go to Structure > Migrations.
+1. In the "Islandora 7.x Over REST" migration group, click on the "List migrations" link in the Operations list.
+1. In the "Islandora 7.x JSON over REST" migration, click on the "Execute" button.
+1. Choose "Import" from the operations drop-down and then click on the "Execute" button.
+
+#### Command line
+
 In your Drupal installation directory, run `drush migrate-import islandora_basic_image_json_over_rest`.
 
 You should see the following output:
